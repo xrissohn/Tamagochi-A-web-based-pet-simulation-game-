@@ -1,0 +1,6 @@
+# GenSpark AI Developer Preview Configuration
+PREVIEW_ENABLED=true
+PREVIEW_PORT=3000
+PREVIEW_URL=https://3000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai/index.html
+PREVIEW_TITLE=Tamagochi Game
+PREVIEW_TYPE=web

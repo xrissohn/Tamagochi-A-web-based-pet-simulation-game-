@@ -1,4 +1,10 @@
 # Tamagochi: Pet Simulation Website
+
+## 🎮 Live Preview
+**Preview URL:** https://3000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai/index.html
+
+**Game URL:** https://8000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai
+
 ## Motivation:
 Originally, Tamagochi is a virtual pet simulation game played through a small egg-shaped device. While some of us wish to revisit our childhood memories by playing the game, it is surprisingly inaccessible today. By making a web version of this game, we believe we can make Tamagotchi both free to use and accessible from multiple devices without the need for installation. Some creativities are added as well.
 ## Functions and Features:

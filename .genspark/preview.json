@@ -1,0 +1,28 @@
+{
+  "preview": {
+    "enabled": true,
+    "type": "web",
+    "port": 3000,
+    "url": "https://3000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai/index.html",
+    "title": "Tamagochi Game Preview",
+    "description": "Live preview of Tamagochi virtual pet game",
+    "autoRefresh": true,
+    "refreshInterval": 30000
+  },
+  "services": [
+    {
+      "name": "Tamagochi Game",
+      "type": "django",
+      "port": 8000,
+      "url": "https://8000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai",
+      "primary": true
+    },
+    {
+      "name": "Preview Page",
+      "type": "static",
+      "port": 3000,
+      "url": "https://3000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai/index.html",
+      "primary": false
+    }
+  ]
+}
