@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# CSRF Settings for development
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai',
+    'https://*.sandbox.novita.ai',
+]
+
 
 # Application definition
 
