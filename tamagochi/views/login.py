@@ -33,27 +33,29 @@ def get_egg(request):
             log.login_time = timezone.now()
             log.save()
 
-            # get ip and latlong
+            # get ip and latlong - use default location to avoid API issues
+            # Default location: Pittsburgh, PA (CMU location from project context)
+            latitude = '40.4406'
+            longitude = '-79.9959'
+            
             try:
                 ip, is_routable = get_client_ip(request)
-                if ip:
-                    latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
-                    if len(latlong) == 2 and latlong[0] != 'Undefined':
-                        latitude = latlong[0]
-                        longitude = latlong[1]
-                    else:
-                        # Default location: Pittsburgh, PA (based on README)
-                        latitude = '40.4406'
-                        longitude = '-79.9959'
-                else:
-                    # Default location: Pittsburgh, PA
-                    latitude = '40.4406'
-                    longitude = '-79.9959'
+                if ip and is_routable:
+                    response = get('https://ipapi.co/{}/latlong/'.format(ip), timeout=2).text
+                    latlong = response.split(',')
+                    # Validate the response is proper lat/long format
+                    if len(latlong) == 2:
+                        try:
+                            # Try to convert to float to validate format
+                            float(latlong[0].strip())
+                            float(latlong[1].strip())
+                            latitude = latlong[0].strip()
+                            longitude = latlong[1].strip()
+                        except ValueError:
+                            # Invalid format, use default
+                            pass
             except Exception as e:
-                print(f"Geolocation error: {e}")
-                # Default location: Pittsburgh, PA
-                latitude = '40.4406'
-                longitude = '-79.9959'
+                print(f"Geolocation error: {e}, using default location")
 
             new_tamagochi = Tamagochi(name=name,user=request.user, gender=gender,apperance=filename
                                       ,apperanceNum=ran,online=True,latitude=latitude,longitude=longitude)
@@ -86,27 +88,29 @@ def login_view(request):
                     pet_self = Tamagochi.objects.get(user=user)
                     pet_self.online=True
 
-                    # get ip and latlong
+                    # get ip and latlong - use default location to avoid API issues
+                    # Default location: Pittsburgh, PA
+                    pet_self.latitude = '40.4406'
+                    pet_self.longitude = '-79.9959'
+                    
                     try:
                         ip, is_routable = get_client_ip(request)
-                        if ip:
-                            latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
-                            if len(latlong) == 2 and latlong[0] != 'Undefined':
-                                pet_self.latitude = latlong[0]
-                                pet_self.longitude = latlong[1]
-                            else:
-                                # Default location: Pittsburgh, PA
-                                pet_self.latitude = '40.4406'
-                                pet_self.longitude = '-79.9959'
-                        else:
-                            # Default location: Pittsburgh, PA
-                            pet_self.latitude = '40.4406'
-                            pet_self.longitude = '-79.9959'
+                        if ip and is_routable:
+                            response = get('https://ipapi.co/{}/latlong/'.format(ip), timeout=2).text
+                            latlong = response.split(',')
+                            # Validate the response is proper lat/long format
+                            if len(latlong) == 2:
+                                try:
+                                    # Try to convert to float to validate format
+                                    float(latlong[0].strip())
+                                    float(latlong[1].strip())
+                                    pet_self.latitude = latlong[0].strip()
+                                    pet_self.longitude = latlong[1].strip()
+                                except ValueError:
+                                    # Invalid format, use default
+                                    pass
                     except Exception as e:
-                        print(f"Geolocation error: {e}")
-                        # Default location: Pittsburgh, PA
-                        pet_self.latitude = '40.4406'
-                        pet_self.longitude = '-79.9959'
+                        print(f"Geolocation error: {e}, using default location")
                     pet_self.save()
                     return redirect('map')
                 except:
