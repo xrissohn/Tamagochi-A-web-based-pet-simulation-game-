@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.html import escape
 import time
 
-from django.utils.timezone import utc
+from django.utils.timezone import UTC as utc
 import datetime
 
 class Tamagochi(models.Model):
