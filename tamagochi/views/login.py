@@ -34,15 +34,29 @@ def get_egg(request):
             log.save()
 
             # get ip and latlong
-            ip, is_routable = get_client_ip(request)
-            latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
-            if latlong == ['Undefined', 'Undefined']:
-                g = geocoder.ip('me')
-                ip = g.ip
-                latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
+            try:
+                ip, is_routable = get_client_ip(request)
+                if ip:
+                    latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
+                    if len(latlong) == 2 and latlong[0] != 'Undefined':
+                        latitude = latlong[0]
+                        longitude = latlong[1]
+                    else:
+                        # Default location: Pittsburgh, PA (based on README)
+                        latitude = '40.4406'
+                        longitude = '-79.9959'
+                else:
+                    # Default location: Pittsburgh, PA
+                    latitude = '40.4406'
+                    longitude = '-79.9959'
+            except Exception as e:
+                print(f"Geolocation error: {e}")
+                # Default location: Pittsburgh, PA
+                latitude = '40.4406'
+                longitude = '-79.9959'
 
             new_tamagochi = Tamagochi(name=name,user=request.user, gender=gender,apperance=filename
-                                      ,apperanceNum=ran,online=True,latitude=latlong[0],longitude=latlong[1])
+                                      ,apperanceNum=ran,online=True,latitude=latitude,longitude=longitude)
             new_tamagochi.save()
             return redirect('map')
     else:
@@ -73,14 +87,26 @@ def login_view(request):
                     pet_self.online=True
 
                     # get ip and latlong
-                    ip, is_routable = get_client_ip(request)
-                    latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
-                    if latlong == ['Undefined', 'Undefined']:
-                        g = geocoder.ip('me')
-                        ip = g.ip
-                        latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
-                    pet_self.latitude = latlong[0]
-                    pet_self.longitude = latlong[1]
+                    try:
+                        ip, is_routable = get_client_ip(request)
+                        if ip:
+                            latlong = get('https://ipapi.co/{}/latlong/'.format(ip)).text.split(',')
+                            if len(latlong) == 2 and latlong[0] != 'Undefined':
+                                pet_self.latitude = latlong[0]
+                                pet_self.longitude = latlong[1]
+                            else:
+                                # Default location: Pittsburgh, PA
+                                pet_self.latitude = '40.4406'
+                                pet_self.longitude = '-79.9959'
+                        else:
+                            # Default location: Pittsburgh, PA
+                            pet_self.latitude = '40.4406'
+                            pet_self.longitude = '-79.9959'
+                    except Exception as e:
+                        print(f"Geolocation error: {e}")
+                        # Default location: Pittsburgh, PA
+                        pet_self.latitude = '40.4406'
+                        pet_self.longitude = '-79.9959'
                     pet_self.save()
                     return redirect('map')
                 except:
