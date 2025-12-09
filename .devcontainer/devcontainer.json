@@ -1,0 +1,25 @@
+{
+  "name": "Tamagochi Game",
+  "forwardPorts": [3000, 8000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Preview",
+      "onAutoForward": "openBrowser",
+      "protocol": "https"
+    },
+    "8000": {
+      "label": "Django App",
+      "onAutoForward": "notify",
+      "protocol": "https"
+    }
+  },
+  "customizations": {
+    "genspark": {
+      "preview": {
+        "port": 3000,
+        "path": "/index.html",
+        "enabled": true
+      }
+    }
+  }
+}

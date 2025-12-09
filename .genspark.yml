@@ -1,0 +1,26 @@
+version: 1.0
+project:
+  name: Tamagochi Game
+  type: web
+  framework: django
+
+preview:
+  enabled: true
+  port: 3000
+  url: /index.html
+  title: Tamagochi Game Preview
+  auto_open: true
+
+services:
+  - name: django
+    port: 8000
+    command: python3 manage.py runserver 0.0.0.0:8000
+    
+  - name: preview
+    port: 3000
+    command: python3 -m http.server 3000
+    primary: true
+
+ports:
+  - 3000
+  - 8000

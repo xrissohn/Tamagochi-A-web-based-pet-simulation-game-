@@ -1,0 +1,10 @@
+{
+  "livePreview.defaultPreviewPath": "/index.html",
+  "preview.port": 3000,
+  "preview.autoOpen": true,
+  "genspark.preview": {
+    "enabled": true,
+    "port": 3000,
+    "url": "https://3000-i7zmn9tjh57296yt5ojaw-de59bda9.sandbox.novita.ai/index.html"
+  }
+}
