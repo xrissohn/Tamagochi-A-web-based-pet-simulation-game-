@@ -24,13 +24,15 @@ def signup(request):
         new_user.is_active = 0
         new_user.save()
         token = default_token_generator.make_token(new_user)
+        # Use request scheme (http or https) automatically
+        scheme = request.scheme if request.scheme else 'https'
         email_body = """
                         I am waiting for you for a long time! So great to see you here!
                         Welcome to Tamagochi (￣∇￣) There is only one last step to be our member!
                         Simply click this link and enjoy~
 
-                        http://%s%s
-                    """ % (request.get_host(),
+                        %s://%s%s
+                    """ % (scheme, request.get_host(),
                            reverse('confirm', args=(new_user.username, token)))
         send_mail(
                 subject='Welcome to Tamagochi! One more step: Verify your email adress!',
