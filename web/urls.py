@@ -14,11 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('tamagochi/', include('tamagochi.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from django.contrib import admin
-from django.urls import path, re_path
-from django.conf.urls import include, url
+from django.urls import path, include, re_path
 import django.contrib.auth.views
 from django.conf.urls.static import static
 from django.conf import settings

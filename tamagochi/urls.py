@@ -14,11 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('tamagochi/', include('tamagochi.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from django.contrib import admin
-from django.urls import path, re_path
-from django.conf.urls import include, url
+from django.urls import path, re_path, include
 import django.contrib.auth.views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -56,13 +52,13 @@ urlpatterns = [
     path('dismiss_friend',dismiss_friend, name='dismiss_friend'),
     path('get_friend',get_friend, name='get_friend'),
     path('get_friendwaitlist',get_friendwaitlist, name='get_friendwaitlist'),
-    url(r'^media/(?P<path>.*)', serve, {"document_root":MEDIA_ROOT}),
+    re_path(r'^media/(?P<path>.*)', serve, {"document_root":MEDIA_ROOT}),
     path('confirmEmail/<str:username>/<slug:token>/',confirmEmail, name='confirm'),
-    url(r'^resetPassword/$',PasswordResetView.as_view(template_name='authen/password_reset.html'),name='reset_password'),
-    url(r'^resetPassword/done/$',PasswordResetDoneView.as_view(template_name='authen/password_reset_done.html'), name='password_reset_done'),
-    url(r'^resetPassword/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    re_path(r'^resetPassword/$',PasswordResetView.as_view(template_name='authen/password_reset.html'),name='reset_password'),
+    re_path(r'^resetPassword/done/$',PasswordResetDoneView.as_view(template_name='authen/password_reset_done.html'), name='password_reset_done'),
+    re_path(r'^resetPassword/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         PasswordResetConfirmView.as_view(template_name='authen/password_reset_confirm.html'), name='password_reset_confirm'),
-    url(r'^resetPassword/complete/$',
+    re_path(r'^resetPassword/complete/$',
         PasswordResetCompleteView.as_view(template_name='authen/password_reset_complete.html'), name='password_reset_complete'),
     path('add_item', add_item, name='add_item'),
     path('order_item', order_item, name='order_item'),
@@ -77,7 +73,7 @@ urlpatterns = [
     path('multiGame/guest_gameRoom/', guest_gameRoom, name='guest_gameRoom'),
     path('multiGame/racing',racingGame,name='racing'),
     path('singlegame/hitMouse',hitMouse,name='hitMouse'),
-    url(r'^get_changes/?$', get_changes),
+    re_path(r'^get_changes/?$', get_changes),
     path('singlegame/flappy',flappy,name='flappy'),
     path('singlegame/score1',score1,name='score1'),
     path('singlegame/score2',score2,name='score2'),
