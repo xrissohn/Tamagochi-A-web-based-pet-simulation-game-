@@ -67,6 +67,21 @@ def get_client_ip(request):
 
 
 def get_weather(latitude,longitude):
-    weather1 = get("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&APPID=2af708516c0a5a89ff92ec1cc0af99f3".format(latitude, longitude)).json()
-    icon_id = weather1['weather'][0]['icon']
-    return icon_id
+    try:
+        # If latitude/longitude is None, return default weather
+        if latitude is None or longitude is None:
+            return '01d'  # Default: clear sky day
+        
+        weather1 = get("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&APPID=2af708516c0a5a89ff92ec1cc0af99f3".format(latitude, longitude)).json()
+        
+        # Check if API response contains weather data
+        if 'weather' in weather1 and len(weather1['weather']) > 0:
+            icon_id = weather1['weather'][0]['icon']
+            return icon_id
+        else:
+            # Return default weather icon if API fails
+            return '01d'  # Default: clear sky day
+    except Exception as e:
+        # Return default weather icon on any error
+        print(f"Weather API error: {e}")
+        return '01d'  # Default: clear sky day
